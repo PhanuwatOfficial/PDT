@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRODUCTION</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    body {
+      font-family: sans-serif;
+      font-family: "Kanit", sans-serif;
+      /* background-color: #202020;
+      color: rgb(224, 224, 224); */
+      background-color: #f3f8ff;
+      /* background-color: #e3edfc; */
+    }
+
+    hr {
+      border: 1px solid rgb(231, 231, 231);
+    }
+
+    .kanit-medium {
+      font-family: "Kanit", sans-serif;
+      font-weight: 500;
+      font-style: normal;
+    }
+
+    table {
+      border-collapse: collapse; /* ต้องตั้งค่าเป็น separate เพื่อให้ border-radius ทำงาน */
+      border-radius: 20px 20px 0px 0px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    th {
+      color: white;
+      background-color: rgb(33, 83, 163);
+      height: 35px;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: center;
+      padding: 1px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-top: 5px;
+    }
+
+    .Hmodal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-top: 50px;
+    }
+
+    .modal-login {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-top: 150px;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 0px auto;
+      padding: 10px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      color: black;
+      border-radius: 2rem;
+      padding: 2rem;
+    }
+
+    .Hmodal-content {
+      background-color: #fefefe;
+      margin: 0px auto;
+      padding: 10px;
+      border: 1px solid #888;
+      width: 100%;
+      max-width: 700px;
+      color: black;
+      border-radius: 2rem;
+      padding: 2rem;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 10px 0;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    #loginButton,
+    #logoutButton {
+      margin-left: 10px;
+    }
+
+    .History-button {
+      font-family: "Kanit", sans-serif;
+      background-color: rgb(223, 159, 40);
+      font-size: 12px;
+    }
+
+    button {
+      font-family: "Kanit", sans-serif;
+      background-color: #1270c7;
+      color: white;
+      padding: 14px 13px;
+      margin: 0px 5px;
+      border: none;
+      cursor: pointer;
+      border-radius: 0.7rem;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: scale(1.1);
+      transition: 0.2s;
+    }
+
+    .delete-button {
+      font-family: "Kanit", sans-serif;
+      background-color: red;
+      color: white;
+      padding: 14px 13px;
+      margin: 0px 5px;
+      border: none;
+      cursor: pointer;
+      border-radius: 0.7rem;
+    }
+
+    .delete-button:hover {
+      background-color: darkred;
+    }
+
+    .auth-buttons {
+      position: absolute;
+      top: 30px;
+      right: 50px;
+    }
+
+    .auth-buttons button {
+      margin-left: 50px;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    select {
+      font-family: "Kanit", sans-serif;
+      font-size: 16px;
+    }
+
+    .delete-button {
+      background-color: red;
+    }
+
+    .delete-button:hover {
+      background-color: darkred;
+    }
+
+    #filterDepartment,
+    #filterLine,
+    #filterDate {
+      margin-right: 25px;
+    }
+
+    .filter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 30px;
+    }
+
+    #productionDateHeader {
+      cursor: pointer;
+    }
+
+    #productionDateHeader:hover {
+      color: rgb(228, 228, 228);
+      font-size: 1.1em; /* ขยายขนาดฟอนต์เมื่อ hover */
+      transition: font-size 0.1s ease; /* เพิ่มการเคลื่อนไหวให้ดูนุ่มนวล */
+    }
+
+    #finishDateHeader {
+      cursor: pointer;
+    }
+
+    #finishDateHeader:hover {
+      color: rgb(228, 228, 228);
+      font-size: 1.1em; /* ขยายขนาดฟอนต์เมื่อ hover */
+      transition: font-size 0.1s ease; /* เพิ่มการเคลื่อนไหวให้ดูนุ่มนวล */
+    }
+
+    #productionTable th:nth-child(14),
+    #productionTable td:nth-child(14),
+    #productionTable th:nth-child(9),
+    #productionTable td:nth-child(9),
+    #productionTable th:nth-child(2),
+    #productionTable td:nth-child(2),
+    #productionTable th:nth-child(3),
+    #productionTable td:nth-child(3),
+    #productionTable th:nth-child(15),
+    #productionTable td:nth-child(15) {
+      display: none;
+    }
+
+    #productionTable td:nth-child(16) {
+      padding: 5px;
+      white-space: nowrap;
+      width: 5%;
+    }
+
+    #productionTable td:nth-child(7) {
+      padding: 5px;
+      width: 4%;
+      white-space: nowrap;
+    }
+
+    #productionTable td:nth-child(8) {
+      padding: 5px;
+      width: 6%;
+      white-space: nowrap;
+    }
+
+    /* วันที่ผลิตสินค้า */
+    #productionTable td:nth-child(10) {
+      padding: 5px;
+      width: 7%;
+      white-space: nowrap;
+    }
+
+    #productionTable td:nth-child(11) {
+      padding: 5px;
+      width: 6%;
+      white-space: nowrap;
+    }
+
+    #productionTable td:nth-child(12) {
+      padding: 5px;
+      width: 7%;
+      white-space: nowrap;
+    }
+
+    #productionTable td:nth-child(13) {
+      padding: 5px;
+      width: 7%;
+      white-space: nowrap;
+    }
+
+    #productionTable td:nth-child(4) {
+      padding: 3px;
+      width: 7%;
+      white-space: nowrap;
+    }
+
+    #productionTable td:nth-child(5) {
+      padding: 5px;
+      width: 11%;
+      white-space: nowrap; /* ห้ามการตัดข้อความในเซลล์ */
+    }
+
+    /* ชื่อสินค้า */
+    #productionTable td:nth-child(6) {
+      padding: 5px; /* ลบช่องว่างภายในเซลล์ */
+      padding-left: 30px;
+      white-space: collapse balance;
+      text-align: left;
+    }
+
+    /* head ชื่อสินค้า */
+    #productionTable th:nth-child(6) {
+      padding: 5px;
+      white-space: normal;
+    }
+
+    #usernameDisplay {
+      font-size: 18px;
+      font-weight: bold;
+      color: rgb(71, 83, 151);
+    }
+
+    /* .hidden-edit-column th:nth-child(15),
+      .hidden-edit-column td:nth-child(15) {
+        display: none;
+      } */
+
+    h1 {
+      font-size: 3.8rem;
+      color: #012d66;
+      -webkit-text-stroke: 2px rgb(177, 188, 218);
+      text-shadow: 4px 4px 8px rgb(120, 154, 170); /* เพิ่มเงา */
+      margin: 0;
+      text-align: center;
+      /* flex-grow: 1; ทำให้ h1 ขยายได้เพื่อจัดกึ่งกลาง */
+    }
+
+    .img {
+      position: relative;
+      width: 25%;
+      margin-top: 40px;
+      margin-left: 180px;
+    }
+
+    img {
+      width: 150px;
+      position: absolute;
+      left: 0;
+    }
+
+    .head {
+      align-items: center; /* จัดแนวให้อยู่กลางบนล่าง */
+      justify-content: center; /* จัด h1 ให้อยู่กลางหน้าจอ */
+
+      width: 100%;
+      height: 150px; /* ปรับความสูงของส่วนหัวตามต้องการ */
+    }
+
+    #searchInput {
+      width: 15%;
+      border-radius: 1rem;
+    }
+
+    @media only screen and (max-width: 1100px) {
+      img {
+        width: 80px;
+      }
+
+      .img {
+        margin-left: 80px;
+      }
+    }
+
+    @media only screen and (max-width: 700px) {
+      h1 {
+        font-size: 3rem;
+      }
+
+      #productionTable td:nth-child(6) {
+        padding: 10px;
+        white-space: collapse balance;
+      }
+
+      img {
+        width: 80px;
+      }
+
+      .img {
+        width: 100px;
+        margin-left: 20px;
+      }
+      .History-button {
+        font-family: "Kanit", sans-serif;
+        background-color: rgb(223, 159, 40);
+        color: white;
+        padding: 4px 3px;
+        margin: 0px 5px;
+        border: none;
+        cursor: pointer;
+        border-radius: 0.7rem;
+      }
+
+      button {
+        font-family: "Kanit", sans-serif;
+        background-color: #1270c7;
+        color: white;
+        padding: 4px 3px;
+        margin: 0px 0px;
+        border: none;
+        cursor: pointer;
+        border-radius: 0.7rem;
+      }
+
+      button:hover {
+        opacity: 0.9;
+        transform: scale(1.1);
+        transition: 0.2s;
+      }
+
+      .delete-button {
+        font-family: "Kanit", sans-serif;
+        background-color: red;
+        color: white;
+        padding: 4px 3px;
+        margin: 0px 0px;
+        border: none;
+        cursor: pointer;
+        border-radius: 0.7rem;
+      }
+
+      .delete-button:hover {
+        background-color: darkred;
+      }
+
+      #productionTable td:nth-child(16) {
+        padding: 3px;
+        width: 10%;
+        white-space: nowrap;
+      }
+
+      #productionTable th:nth-child(7),
+      #productionTable td:nth-child(7),
+      #productionTable th:nth-child(5),
+      #productionTable td:nth-child(5),
+      #productionTable th:nth-child(4),
+      #productionTable td:nth-child(4) {
+        display: none;
+      }
+
+      body {
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .auth-buttons {
+        position: absolute;
+        top: 25px;
+        right: 0px;
+      }
+
+      button {
+        width: 70px;
+        text-align: center;
+        padding: 8px;
+        margin-left: 15px;
+        margin-top: 10px;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 5px;
+      }
+    }
+  </style>
+
+  <body>
+    <!-- ปุ่มล็อกอิน -->
+    <div class="auth-buttons">
+      <span id="usernameDisplay"></span>
+      <button id="loginButton" onclick="showLoginModal()">Login</button>
+      <button id="logoutButton" onclick="logout()" style="display: none">
+        Logout
+      </button>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-login">
+      <div class="modal-content">
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <h2>Login</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" />
+        <br /><br />
+        <button onclick="login()">Login</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="head">
+        <div class="img">
+          <img src="RMC.png" alt="" />
+        </div>
+        <h1>PRODUCTION</h1>
+      </div>
+      <div class="filter">
+        <div class="DepartmentAndLine">
+          <label for="filterDepartment">แผนก :</label>
+          <select
+            id="filterDepartment"
+            onchange="updateLineDropdown(); filterByDateAndDepartment()"
+          >
+            <option value="All">ALL</option>
+            <option value="ปิดผิว">ปิดผิว (LM)</option>
+            <option value="พีพีบอร์ด">พีพีบอร์ด (PPB)</option>
+            <option value="รีดเหล็ก">รีดเหล็ก (FM)</option>
+            <option value="พิมพ์เยื่อ">พิมพ์เยื่อ (TLP)</option>
+            <option value="เฟรม">เฟรม (WP)</option>
+            <option value="ตัดแผ่น">ตัดแผ่น (PPBC)</option>
+          </select>
+
+          <label for="filterLine">ไลน์ :</label>
+          <select id="filterLine" onchange="filterByDateAndDepartment()">
+            <option value=""></option>
+          </select>
+        </div>
+
+        <div class="StartAndEndDate">
+          <label for="filterStartDate">Start Date:</label>
+          <input
+            type="date"
+            id="filterStartDate"
+            onchange="filterByDateAndDepartment()"
+          />
+
+          <label for="filterEndDate">End Date:</label>
+          <input
+            type="date"
+            id="filterEndDate"
+            onchange="filterByDateAndDepartment()"
+          />
+        </div>
+        <!-- <button onclick="showAll()">ทั้งหมด</button> -->
+
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="ค้นหาชื่อสินค้า"
+          oninput="searchProductName()"
+        />
+
+        <button id="addRowButton" onclick="showModal()" style="display: none">
+          เพิ่มแผน
+        </button>
+        <button id="saveButton" onclick="saveData()" style="display: none">
+          บันทึก
+        </button>
+      </div>
+    </div>
+    <table id="productionTable">
+      <tr>
+        <th>ลำดับ</th>
+        <th>แผนก</th>
+        <th>ไลน์</th>
+        <th>เลขที่ใบสั่งผลิต</th>
+        <th>รหัสสินค้า</th>
+        <th>ชื่อสินค้า</th>
+        <th>หน่วย</th>
+        <th>จำนวนที่สั่งผลิต</th>
+        <th id="dateRequestHeader">วันที่ต้องการสินค้า</th>
+        <th id="productionDateHeader">วันที่ผลิตสินค้า</th>
+        <th>จำนวนที่ผลิตได้</th>
+        <th id="finishDateHeader">วันที่ผลิตเสร็จสิ้น</th>
+        <th>สถานะการผลิต</th>
+        <th id="dateHeader">วันที่</th>
+        <th id="TimeHeader">เวลา</th>
+        <!-- <th>อนุมัติ</th> -->
+        <!-- <th>ประวัติ</th> -->
+        <th>Action</th>
+      </tr>
+    </table>
+
+    <!-- <button id="loadButton" onclick="loadData()" style="display: none">
+      โหลด
+    </button> -->
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <label for="productCode">รหัสสินค้า:</label>
+        <input id="productCode" type="text" list="productCodeList" required />
+        <datalist id="productCodeList"> </datalist>
+        <label for="productName">ชื่อสินค้า:</label>
+        <input type="text" id="productName" name="productName" />
+        <label for="productQuantity">จำนวนที่สั่งผลิต:</label>
+        <input type="number" id="productQuantity" name="productQuantity" />
+        <label for="productUnit">หน่วย:</label>
+        <input type="text" id="productUnit" name="productUnit" />
+        <label for="producedQuantity">จำนวนที่ผลิตได้:</label>
+        <input type="number" id="producedQuantity" name="producedQuantity" />
+        <label for="orderNumber">เลขที่ใบสั่งผลิต:</label>
+        <input type="text" id="orderNumber" name="orderNumber" />
+        <label for="requestedDate">วันที่ต้องการสินค้า:</label>
+        <input type="date" id="requestedDate" name="requestedDate" />
+        <br /><br />
+        <label for="productionDate">วันที่ผลิตสินค้า:</label>
+        <input type="date" id="productionDate" name="productionDate" />
+        <br /><br />
+        <label for="finishDate">วันที่ผลิตเสร็จสิ้น:</label>
+        <input type="date" id="finishDate" name="finishDate" />
+        <br /><br />
+        <label for="productionStatus">สถานะการผลิต:</label>
+        <select id="productionStatus" name="productionStatus">
+          <option value="ลงแผนผลิต">ลงแผนผลิต</option>
+          <option value="กำลังผลิต">กำลังผลิต</option>
+          <option value="ผลิตเสร็จสิ้น">ผลิตเสร็จสิ้น</option>
+          <option value="รอการตรวจสอบ">รอการตรวจสอบ</option>
+          <option value="ไม่ผ่านการตรวจสอบ">ไม่ผ่านการตรวจสอบ</option>
+          <option value="ผ่านการตรวจสอบ">ผ่านการตรวจสอบ</option>
+          <option value="รอการรับเข้า">รอการรับเข้า</option>
+          <option value="สินค้าถูกตีกลับ">สินค้าถูกตีกลับ</option>
+          <option value="รับเข้าเสร็จสิ้น">รับเข้าเสร็จสิ้น</option>
+        </select>
+        <br /><br />
+        <label for="recordDate">วันที่บันทึก:</label>
+        <input type="date" id="recordDate" name="recordDate" />
+        &nbsp;&nbsp;
+        <label for="productionTime">เวลา:</label>
+        <input type="time" id="productionTime" name="productionTime" />
+        <br /><br />
+        <label for="department">แผนก:</label>
+        <select
+          id="department"
+          name="department"
+          onchange="updateModalLineDropdown()"
+        >
+          <option value="ปิดผิว">ปิดผิว (LM)</option>
+          <option value="พีพีบอร์ด">พีพีบอร์ด (PPB)</option>
+          <option value="รีดเหล็ก">รีดเหล็ก (FM)</option>
+          <option value="พิมพ์เยื่อ">พิมพ์เยื่อ (TLP)</option>
+          <option value="เฟรม">เฟรม (WP)</option>
+          <option value="ตัดแผ่น">ตัดแผ่น (PPBC)</option>
+        </select>
+        &nbsp;&nbsp;
+        <label for="line">ไลน์:</label>
+        <select id="line" name="line">
+          <option value="L1">L1</option>
+          <option value="L2">L2</option>
+          <option value="L3">L3</option>
+        </select>
+        <br /><br />
+        <label for="approve">อนุมัติ:</label>
+        <select id="approve" name="approve">
+          <option value=""></option>
+          <option value="Accept">Accept</option>
+          <option value="Reject">Reject</option>
+        </select>
+        <br /><br />
+        <div id="rejectReasonContainer" style="display: none">
+          <label for="rejectReason">เหตุผล:</label>
+          <input type="text" id="rejectReason" name="rejectReason" />
+        </div>
+        <!-- <br /> -->
+        <!-- <label for="test">test:</label>
+        <input type="text" id="test" name="test" /> -->
+        <button class="modal-save-button" onclick="addRow()">บันทึก</button>
+        <!-- <button onclick="history()">ประวัติ</button> -->
+        <!-- history function record date time and user when save -->
+        <br />
+      </div>
+    </div>
+
+    <div id="historyModal" class="Hmodal">
+      <div class="Hmodal-content">
+        <span class="close" onclick="closeHModal()">&times;</span>
+        <h2>ประวัติการบันทึก</h2>
+
+        <!-- <input
+          type="text"
+          id="historySearch"
+          placeholder="Search"
+          onkeyup="filterHistory()"
+        /> -->
+
+        <div id="historyContent"></div>
+        <!-- This is where history log will be displayed -->
+      </div>
+    </div>
+    <script>
+      let currentRow = null;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const table = document.getElementById("productionTable");
+        table.classList.add("hidden-edit-column");
+      });
+
+      // Function to sort table rows by date
+      function sortTableByDate() {
+        const table = document.getElementById("productionTable");
+        const rows = Array.from(table.getElementsByTagName("tr")).slice(1); // Exclude the header row
+        const isAscending = table.getAttribute("data-sort") === "asc";
+
+        rows.sort((rowA, rowB) => {
+          const dateA = new Date(rowA.cells[11].innerText); // 9 is the index for "วันที่" column
+          const dateB = new Date(rowB.cells[11].innerText);
+          return isAscending ? dateA - dateB : dateB - dateA;
+        });
+
+        // Re-append sorted rows to the table body
+        const tbody = table.querySelector("tbody") || table;
+        rows.forEach((row) => tbody.appendChild(row));
+
+        // Toggle sort direction
+        table.setAttribute("data-sort", isAscending ? "desc" : "asc");
+        updateRowNumbers();
+      }
+
+      function sortTableByRequestDate() {
+        const table = document.getElementById("productionTable");
+        const rows = Array.from(table.getElementsByTagName("tr")).slice(1); // Exclude the header row
+        const isAscending = table.getAttribute("data-sort") === "asc";
+
+        rows.sort((rowA, rowB) => {
+          const dateB = new Date(rowB.cells[9].innerText);
+          const dateA = new Date(rowA.cells[9].innerText);
+          return isAscending ? dateA - dateB : dateB - dateA;
+        });
+
+        // Re-append sorted rows to the table body
+        const tbody = table.querySelector("tbody") || table;
+        rows.forEach((row) => tbody.appendChild(row));
+
+        // Toggle sort direction
+        table.setAttribute("data-sort", isAscending ? "desc" : "asc");
+        updateRowNumbers();
+      }
+
+      // Add event listener to the "วันที่" header
+      document
+        .getElementById("finishDateHeader")
+        .addEventListener("click", sortTableByDate);
+      document
+        .getElementById("productionDateHeader")
+        .addEventListener("click", sortTableByRequestDate);
+
+      function updateLineDropdown() {
+        const department = document.getElementById("filterDepartment").value;
+        const lineSelect = document.getElementById("filterLine");
+        lineSelect.innerHTML = "";
+
+        const lineOptions = getLineOptions(department);
+        lineOptions.forEach(function (line) {
+          const option = document.createElement("option");
+          option.value = line;
+          option.textContent = line;
+          lineSelect.appendChild(option);
+        });
+      }
+
+      function updateModalLineDropdown() {
+        const department = document.getElementById("department").value;
+        const lineSelect = document.getElementById("line");
+        lineSelect.innerHTML = "";
+
+        const lineOptions = getLineOptions(department);
+        lineOptions.forEach(function (line) {
+          const option = document.createElement("option");
+          option.value = line;
+          option.textContent = line;
+          lineSelect.appendChild(option);
+        });
+      }
+
+      document
+        .getElementById("productCode")
+        .addEventListener("input", autoFillProductDetails);
+      document.addEventListener("DOMContentLoaded", initProductCodeDatalist);
+
+      function getLineOptions(department) {
+        switch (department) {
+          case "ปิดผิว":
+          case "พีพีบอร์ด":
+            return ["L1", "L2", "L3"];
+          case "รีดเหล็ก":
+            return ["L1", "L2", "L3", "L4", "L5"];
+          case "พิมพ์เยื่อ":
+          case "เฟรม":
+          case "ตัดแผ่น":
+            return ["L1"];
+        }
+      }
+
+      function saveData() {
+        const table = document.getElementById("productionTable");
+        const rows = [];
+
+        for (let i = 1; i < table.rows.length; i++) {
+          const row = {
+            department: table.rows[i].cells[1].innerText,
+            line: table.rows[i].cells[2].innerText,
+            orderNumber: table.rows[i].cells[3].innerText,
+            productCode: table.rows[i].cells[4].innerText,
+            productName: table.rows[i].cells[5].innerText,
+            productUnit: table.rows[i].cells[6].innerText,
+            productQuantity: table.rows[i].cells[7].innerText,
+            requestedDate: table.rows[i].cells[8].innerText,
+            productionDate: table.rows[i].cells[9].innerText,
+            producedQuantity: table.rows[i].cells[10].innerText,
+            finishDate: table.rows[i].cells[11].innerText,
+            productionStatus: table.rows[i].cells[12].innerText,
+            recordDate: table.rows[i].cells[13].innerText,
+            productionTime: table.rows[i].cells[14].innerText,
+          };
+          rows.push(row);
+        }
+
+        // ส่งข้อมูลไปยังเซิร์ฟเวอร์
+        fetch("http://localhost:3000/save-production-row", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(rows), // ส่งข้อมูลทั้งหมดเป็น JSON
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message); // แสดงข้อความจากเซิร์ฟเวอร์
+            console.log("Saved Data:", data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function loadData() {
+        fetch("http://localhost:3000/load-production-data")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Loaded Rows:", data); // ตรวจสอบแถวที่โหลด
+            data.forEach((row) => addRow(row)); // เพิ่มแถวใหม่ในตาราง
+          })
+          .catch((error) => {
+            console.error("Error loading data:", error);
+          });
+      }
+
+      function filterByDateAndDepartment() {
+        const startDateFilter =
+          document.getElementById("filterStartDate").value;
+        const endDateFilter = document.getElementById("filterEndDate").value;
+        const departmentFilter =
+          document.getElementById("filterDepartment").value;
+        const lineFilter = document.getElementById("filterLine").value;
+        const table = document.getElementById("productionTable");
+
+        for (let i = 1; i < table.rows.length; i++) {
+          const row = table.rows[i];
+          const rowDate = row.cells[9].innerText; // Get date from cell 8
+          const rowDepartment = row.cells[1].innerText;
+          const rowLine = row.cells[2].innerText;
+
+          const showRow =
+            (!startDateFilter || rowDate >= startDateFilter) &&
+            (!endDateFilter || rowDate <= endDateFilter) &&
+            (!departmentFilter ||
+              departmentFilter === "All" ||
+              rowDepartment === departmentFilter) &&
+            (!lineFilter || lineFilter === "" || rowLine === lineFilter);
+
+          row.style.display = showRow ? "" : "none";
+        }
+        updateRowNumbers();
+      }
+
+      function updateRowNumbers() {
+        const table = document.getElementById("productionTable");
+        let rowNumber = 1;
+        for (let i = 1; i < table.rows.length; i++) {
+          if (table.rows[i].style.display !== "none") {
+            table.rows[i].cells[0].innerText = rowNumber++;
+          }
+        }
+      }
+
+      // Event listener for department dropdown
+      document
+        .getElementById("filterDepartment")
+        .addEventListener("change", function () {
+          const departmentSelect =
+            document.getElementById("filterDepartment").value;
+
+          // If "All" is selected, call showAll function
+          if (departmentSelect === "All") {
+            showAll();
+          } else {
+            // Apply other filtering logic if necessary
+            filterByDateAndDepartment(); // Or any other filtering function you are using
+          }
+        });
+
+      // Function to clear filters and show all rows
+      function showAll() {
+        // Clear the date filters
+        document.getElementById("filterStartDate").value = "";
+        document.getElementById("filterEndDate").value = "";
+
+        // Set the department dropdown to "All"
+        const departmentSelect = document.getElementById("filterDepartment");
+        departmentSelect.value = "All"; // Assuming "All" is one of the options
+
+        // Show all rows in the production table
+        const table = document.getElementById("productionTable");
+        for (let i = 1; i < table.rows.length; i++) {
+          table.rows[i].style.display = "";
+        }
+
+        // Update row numbers after showing all
+        updateRowNumbers();
+      }
+
+      function populateFilterDates() {
+        const dates = new Set();
+        const table = document.getElementById("productionTable");
+        for (let i = 1; i < table.rows.length; i++) {
+          const rowDate = table.rows[i].cells[13].innerText;
+          if (rowDate) dates.add(rowDate);
+        }
+        const dateFilter = document.getElementById("recordDate");
+        dateFilter.innerHTML = "";
+        dates.forEach((date) => {
+          const option = document.createElement("option");
+          option.value = date;
+          option.textContent = date;
+          dateFilter.appendChild(option);
+        });
+      }
+
+      function showModal() {
+        document.getElementById("myModal").style.display = "block";
+        currentRow = null;
+        setDefaultRecordDate();
+
+        const username = document.getElementById("usernameDisplay").textContent;
+        if (username === "planning1" || username === "planning2") {
+          document.getElementById("productionStatus").value = "ลงแผนผลิต";
+          restrictToPNEdit(); // Apply restrictions for planning users
+        } else if (username === "admin") {
+          document.getElementById("productionStatus").value = "ลงแผนผลิต";
+          enableAllModalFields(); // Ensure other fields are enabled for non-planning users
+        } else if (
+          username !== "planning1" &&
+          username !== "planning2" &&
+          username !== "admin"
+        ) {
+          document.getElementById("productionStatus").value = "";
+          enableAllModalFields(); // Ensure other fields are enabled for non-planning users
+        }
+      }
+
+      // Function to set the default date and time for the recordDate field
+      function setDefaultRecordDate() {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+        const dd = String(now.getDate()).padStart(2, "0");
+        const hh = String(now.getHours()).padStart(2, "0");
+        const min = String(now.getMinutes()).padStart(2, "0");
+
+        // Format for date (yyyy-mm-dd) and time (hh:mm)
+        const formattedDate = `${yyyy}-${mm}-${dd}`;
+        const formattedTime = `${hh}:${min}`;
+
+        // Set the default value of the date and time fields
+        document.getElementById("recordDate").value = formattedDate;
+        document.getElementById("productionTime").value = formattedTime;
+      }
+
+      function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+        clearModalFields();
+        enableAllModalFields(); // Enable all fields when closing
+        resetModalFields();
+        // toggleRejectReason();
+      }
+
+      function closeHModal() {
+        document.getElementById("historyModal").style.display = "none";
+        enableAllModalFields(); // Enable all fields when closing
+        // toggleRejectReason();
+      }
+
+      function showLoginModal() {
+        document.getElementById("loginModal").style.display = "block";
+      }
+
+      function closeLoginModal() {
+        document.getElementById("loginModal").style.display = "none";
+      }
+
+      function clearModalFields() {
+        document.getElementById("productCode").value = "";
+        document.getElementById("productName").value = "";
+        document.getElementById("productQuantity").value = "";
+        document.getElementById("productUnit").value = "";
+        document.getElementById("producedQuantity").value = "";
+        document.getElementById("finishDate").value = "";
+        document.getElementById("orderNumber").value = "";
+        document.getElementById("requestedDate").value = "";
+        document.getElementById("productionDate").value = "";
+        document.getElementById("productionStatus").value = "กำลังดำเนินการ";
+        document.getElementById("recordDate").value = "";
+        document.getElementById("department").value = "ปิดผิว";
+        updateModalLineDropdown();
+        document.getElementById("line").value = "L1";
+        document.getElementById("approve").value = "";
+        document.getElementById("rejectReason").value = "";
+
+        enableAllModalFields(); // Enable all fields when clearing
+      }
+
+      function addActionButtons(row) {
+        // Create History button
+        const historyButton = document.createElement("button");
+        historyButton.className = "History-button";
+        historyButton.innerText = "ประวัติ";
+
+        // Create Edit button
+        const editButton = document.createElement("button");
+        editButton.innerText = "แก้ไข";
+        editButton.onclick = function () {
+          editRow(this);
+        };
+
+        // Create Delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.innerText = "ลบ";
+        deleteButton.className = "delete-button";
+        deleteButton.onclick = function () {
+          deleteRow(this);
+        };
+
+        // Create a single cell for all buttons
+        const actionCell = row.insertCell(15);
+
+        // Append all buttons to the same cell
+        actionCell.appendChild(editButton);
+        actionCell.appendChild(deleteButton);
+        actionCell.appendChild(historyButton);
+
+        // Set the history button onclick event
+        historyButton.onclick = function () {
+          const orderNumber = row.cells[3].innerText; // Assuming product code is in the 5th cell (index 4)
+          history(orderNumber); // Pass the productCode to the history function
+        };
+      }
+
+      // function addActionButtonsOther(row) {
+      //   const editCell = row.insertCell(12);
+      //   editCell.innerHTML = "";
+      // }
+
+      function removeActionButtons(row) {
+        const editCell = row.cells[15];
+        if (editCell) {
+          editCell.innerHTML = ""; // Clear the cell containing the action buttons
+        }
+      }
+
+      function deleteRow(button) {
+        const row = button.parentNode.parentNode;
+        const table = document.getElementById("productionTable");
+        table.deleteRow(row.rowIndex);
+        updateRowNumbers();
+      }
+
+      function editRow(button) {
+        const row = button.parentNode.parentNode;
+        currentRow = row;
+
+        document.getElementById("department").value = row.cells[1].innerText;
+        updateModalLineDropdown();
+        document.getElementById("line").value = row.cells[2].innerText;
+        document.getElementById("orderNumber").value = row.cells[3].innerText;
+        document.getElementById("productCode").value = row.cells[4].innerText;
+        document.getElementById("productName").value = row.cells[5].innerText;
+        document.getElementById("productUnit").value = row.cells[6].innerText;
+        document.getElementById("productQuantity").value =
+          row.cells[7].innerText;
+        document.getElementById("requestedDate").value = row.cells[8].innerText;
+        document.getElementById("productionDate").value =
+          row.cells[9].innerText;
+        document.getElementById("producedQuantity").value =
+          row.cells[10].innerText;
+        document.getElementById("finishDate").value = row.cells[11].innerText;
+        document.getElementById("productionStatus").value =
+          row.cells[12].innerText;
+        document.getElementById("recordDate").value = row.cells[13].innerText;
+        document.getElementById("productionTime").value =
+          row.cells[14].innerText;
+
+        document.getElementById("myModal").style.display = "block";
+
+        if (loggedInDepartment === "QCEditor") {
+          restrictToStatusEdit();
+          handleAdminDropdown();
+        }
+
+        // if (loggedInDepartment === "admin") {
+        //   handleAdminDropdown();
+        // }
+
+        if (loggedInDepartment === "WHEditor") {
+          restrictToApproveEdit();
+          handleAdminDropdownWH();
+        }
+
+        if (loggedInDepartment === "ปิดผิว") {
+          restrictToUserEdit();
+        }
+
+        if (loggedInDepartment === "พีพีบอร์ด") {
+          restrictToUserEdit();
+        }
+
+        if (loggedInDepartment === "รีดเหล็ก") {
+          restrictToUserEdit();
+        }
+
+        if (loggedInDepartment === "พิมพ์เยื่อ") {
+          restrictToUserEdit();
+        }
+
+        if (loggedInDepartment === "เฟรม") {
+          restrictToUserEdit();
+        }
+
+        if (loggedInDepartment === "ตัดแผ่น") {
+          restrictToUserEdit();
+        }
+
+        if (loggedInDepartment === "planning") {
+          restrictToPNEdit();
+        }
+      }
+
+      function handleAdminDropdown() {
+        const dropdown = document.getElementById("approve");
+        dropdown.addEventListener("change", function () {
+          const selectedValue = dropdown.value;
+          const productionStatusDropdown =
+            document.getElementById("productionStatus");
+
+          if (selectedValue === "Accept") {
+            productionStatusDropdown.value = "ผ่านการตรวจสอบ";
+          } else if (selectedValue === "Reject") {
+            productionStatusDropdown.value = "ไม่ผ่านการตรวจสอบ";
+          }
+        });
+      }
+
+      function handleAdminDropdownWH() {
+        const dropdown = document.getElementById("approve");
+        dropdown.addEventListener("change", function () {
+          const selectedValue = dropdown.value;
+          const productionStatusDropdown =
+            document.getElementById("productionStatus");
+
+          if (selectedValue === "Accept") {
+            productionStatusDropdown.value = "รับเข้าเสร็จสิ้น";
+          } else if (selectedValue === "Reject") {
+            productionStatusDropdown.value = "สินค้าถูกตีกลับ";
+          }
+        });
+      }
+      // localStorage.clear();
+      let tempRecordDate = "";
+      let historyLog = [];
+
+      function addRow(rowData = null) {
+        if (loggedInDepartment === "planning" && !validatePlanningFields()) {
+          return; // Prevent adding the row if validation fails
+        }
+
+        if (
+          (loggedInDepartment === "QCEditor" ||
+            loggedInDepartment === "WHEditor") &&
+          !validateQCandWHFields()
+        ) {
+          return; // Prevent adding the row if validation fails
+        }
+
+        if (
+          (loggedInDepartment === "ปิดผิว" ||
+            loggedInDepartment === "พีพีบอร์ด" ||
+            loggedInDepartment === "รีดเหล็ก" ||
+            loggedInDepartment === "พิมพ์เยื่อ" ||
+            loggedInDepartment === "เฟรม" ||
+            loggedInDepartment === "ตัดแผ่น") &&
+          !validateUserFields()
+        ) {
+          return; // Prevent adding the row if validation fails
+        }
+
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().split("T")[0]; // YYYY-MM-DD format
+        const formattedTime = currentDate.toTimeString().split(" ")[0]; // HH:MM format
+        const username = document.getElementById("usernameDisplay").innerText; // Assuming username is displayed somewhere
+        const pdstatus = document.getElementById("productionStatus").value;
+        const pdname = document.getElementById("productName").value;
+        const pdquantity = document.getElementById("producedQuantity").value;
+        const pdcode = document.getElementById("productCode").value;
+        const pddate = document.getElementById("productionDate").value;
+        const orderNo = document.getElementById("orderNumber").value;
+
+        // Log the current date, time, and username into the historyLog array
+        historyLog.push({
+          date: formattedDate,
+          time: formattedTime,
+          username: username,
+          status: pdstatus,
+          name: pdname,
+          pdq: pdquantity,
+          pdc: pdcode,
+          pdd: pddate,
+          orno: orderNo,
+        });
+
+        // Add your existing code for saving the row here
+        console.log(
+          "Row added by:",
+          username,
+          "on",
+          formattedDate,
+          formattedTime,
+          pdstatus,
+          pdname,
+          pdquantity,
+          pdcode,
+          pddate,
+          orderNo
+        );
+
+        const table = document.getElementById("productionTable");
+
+        // ตรวจสอบว่ากำลังโหลดข้อมูลหรือไม่
+        const productCode = rowData
+          ? rowData.productCode
+          : document.getElementById("productCode").value;
+        const productName = rowData
+          ? rowData.productName
+          : document.getElementById("productName").value;
+        const productQuantity = rowData
+          ? rowData.productQuantity
+          : document.getElementById("productQuantity").value;
+        const productUnit = rowData
+          ? rowData.productUnit
+          : document.getElementById("productUnit").value;
+        const producedQuantity = rowData
+          ? rowData.producedQuantity
+          : document.getElementById("producedQuantity").value;
+        const finishDate = rowData
+          ? rowData.finishDate
+          : document.getElementById("finishDate").value;
+        const orderNumber = rowData
+          ? rowData.orderNumber
+          : document.getElementById("orderNumber").value;
+        const requestedDate = rowData
+          ? rowData.requestedDate
+          : document.getElementById("requestedDate").value;
+        const productionDate = rowData
+          ? rowData.productionDate
+          : document.getElementById("productionDate").value;
+        const productionStatus = rowData
+          ? rowData.productionStatus
+          : document.getElementById("productionStatus").value;
+        const recordDate = rowData
+          ? rowData.recordDate
+          : document.getElementById("recordDate").value;
+        const productionTime = rowData
+          ? rowData.productionTime
+          : document.getElementById("productionTime").value;
+        const department = rowData
+          ? rowData.department
+          : document.getElementById("department").value;
+        const line = rowData
+          ? rowData.line
+          : document.getElementById("line").value;
+
+        if (currentRow) {
+          // แก้ไขข้อมูลใน row ที่มีอยู่แล้ว
+          currentRow.cells[1].innerText = department;
+          currentRow.cells[2].innerText = line;
+          currentRow.cells[3].innerText = orderNumber;
+          currentRow.cells[4].innerText = productCode;
+          currentRow.cells[5].innerText = productName;
+          currentRow.cells[6].innerText = productUnit;
+          currentRow.cells[7].innerText = productQuantity;
+          currentRow.cells[8].innerText = requestedDate;
+          currentRow.cells[9].innerText = productionDate;
+          currentRow.cells[10].innerText = producedQuantity;
+          currentRow.cells[11].innerText = finishDate;
+          const statusCell = currentRow.cells[12];
+          statusCell.innerText = productionStatus;
+          updateStatusColor(statusCell, productionStatus); // Update color and font weight
+          currentRow.cells[13].innerHTML = recordDate;
+          currentRow.cells[14].innerHTML = productionTime;
+        } else {
+          // เพิ่มแถวใหม่
+          const newRow = table.insertRow();
+          newRow.insertCell(0).innerText = table.rows.length - 1;
+          newRow.insertCell(1).innerText = department;
+          newRow.insertCell(2).innerText = line;
+          newRow.insertCell(3).innerText = orderNumber;
+          newRow.insertCell(4).innerText = productCode;
+          newRow.insertCell(5).innerText = productName;
+          newRow.insertCell(6).innerText = productUnit;
+          newRow.insertCell(7).innerText = productQuantity;
+          newRow.insertCell(8).innerText = requestedDate;
+          newRow.insertCell(9).innerText = productionDate;
+          newRow.insertCell(10).innerText = producedQuantity;
+          newRow.insertCell(11).innerText = finishDate;
+
+          const statusCell = newRow.insertCell(12);
+          statusCell.innerText = productionStatus;
+          updateStatusColor(statusCell, productionStatus); // Update color and font weight
+
+          newRow.insertCell(13).innerHTML = recordDate;
+          newRow.insertCell(14).innerHTML = productionTime;
+
+          addActionButtons(newRow);
+        }
+
+        // หากไม่ใช่การโหลดข้อมูล ให้ทำการเคลียร์ฟิลด์หลังจากเพิ่มแถว
+        if (!rowData) {
+          closeModal();
+          clearModalFields();
+        }
+
+        updateRowNumbers();
+        populateFilterDates();
+      }
+
+      function updateStatusColor(cell, status) {
+        switch (status) {
+          case "ลงแผนผลิต":
+            cell.style.color = "black"; //ดำ
+            break;
+          case "กำลังผลิต":
+            cell.style.color = "#f1c40f"; //เหลือง
+            break;
+          case "ผลิตเสร็จสิ้น":
+            cell.style.color = "#3498db"; //ฟ้า
+            break;
+          case "รอการตรวจสอบ":
+            cell.style.color = "#f1c40f"; //เหลือง
+            break;
+          case "ผ่านการตรวจสอบ":
+            cell.style.color = "#3498db"; //ฟ้า
+            break;
+          case "ไม่ผ่านการตรวจสอบ":
+            cell.style.color = "#e53935"; //แดง
+            break;
+          case "รอการรับเข้า":
+            cell.style.color = "#f1c40f"; //เหลือง
+            break;
+          case "สินค้าถูกตีกลับ":
+            cell.style.color = "#e53935"; //แดง
+            break;
+          case "รับเข้าเสร็จสิ้น":
+            cell.style.color = "#7cb342"; //เขียว
+            break;
+          default:
+            cell.style.color = "#000000"; //สีดำ ถ้าไม่ตรงกับกรณีข้างต้น
+        }
+        cell.style.fontWeight = "bold"; //เพิ่ม bold ให้ตัวอักษร
+      }
+
+      function history(orderNumber) {
+        const modal = document.getElementById("historyModal");
+        const historyContent = document.getElementById("historyContent");
+
+        // Filter history logs for the specific row (based on productCode)
+        const filteredHistory = historyLog.filter(
+          (entry) => entry.orno === orderNumber
+        );
+
+        historyContent.innerHTML = "";
+
+        if (filteredHistory.length === 0) {
+          historyContent.innerHTML =
+            "<li>No history available for this row.</li>";
+        } else {
+          // Display pdc and name centered above the table (first entry only)
+          let historyDisplay = `
+        <p style="text-align: center;"><strong>รหัส ${filteredHistory[0].pdc} &nbsp;&nbsp; ชื่อสินค้า ${filteredHistory[0].name}</strong></p>
+      `;
+
+          // Start the table for the history log
+          historyDisplay +=
+            "<table style='width: 100%; border-collapse: collapse;'>";
+
+          // Add table header
+          historyDisplay += `
+        <tr>
+          <th>สถานะ</th>
+          <th>ผู้บันทึก</th>
+          <th>วันที่บันทึก</th>
+          <th>เวลา</th>
+        </tr>
+      `;
+
+          // Loop through and display each history log entry in a row
+          filteredHistory.forEach((entry) => {
+            historyDisplay += `
+          <tr>
+            <td>${entry.status}</td>
+            <td>${entry.username}</td>
+            <td>${entry.date}</td>
+            <td>${entry.time}</td>
+          </tr>
+        `;
+          });
+
+          historyDisplay += "</table>";
+          historyContent.innerHTML = historyDisplay;
+        }
+
+        // Show the modal
+        modal.style.display = "block";
+      }
+
+      // ให้  ${entry.pdc}, ${entry.name} บันทึกแค่แถวแรก หลังจากนั้นไม่ต้องบันทึก 2 ค่านี้
+      // Close modal when the user clicks on the close button (x)
+      const modal = document.getElementById("historyModal");
+
+      // Close modal when the user clicks on the close button (x)
+      // const closeButton = document.getElementsByClassName("close")[0];
+      // closeButton.onclick = function () {
+      //   modal.style.display = "none";
+      // };
+
+      // Close modal when the user clicks anywhere outside the modal
+      window.onclick = function (event) {
+        const modal = document.getElementById("historyModal");
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      let loggedInDepartment = null;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadData();
+      });
+
+      function validatePlanningFields() {
+        const requiredFields = [
+          { id: "productCode", description: "รหัสสินค้า" },
+          { id: "productName", description: "ชื่อสินค้า" },
+          { id: "productQuantity", description: "จำนวนที่สั่งผลิต" },
+          { id: "productUnit", description: "หน่วย" },
+          { id: "orderNumber", description: "เลขที่ใบสั่งผลิต" },
+          { id: "requestedDate", description: "วันที่ต้องการสินค้า" },
+          { id: "productionDate", description: "วันที่ผลิตสินค้า" },
+          { id: "productionStatus", description: "สถานะการผลิต" },
+          { id: "department", description: "แผนก" },
+          { id: "line", description: "ไลน์" },
+        ];
+
+        let isValid = true;
+        let missingFields = [];
+
+        requiredFields.forEach(({ id, description }) => {
+          const fieldElement = document.getElementById(id);
+          const fieldValue = fieldElement.value.trim();
+          if (!fieldValue) {
+            isValid = false;
+            missingFields.push(description);
+            fieldElement.style.border = "1px solid #e57373"; // Add red border to indicate error
+          } else {
+            fieldElement.style.border = ""; // Remove border if field is filled
+          }
+        });
+
+        // if (!isValid) {
+        //   alert(`กรุณากรอกข้อมูล:\n${missingFields.join("\n")}`);
+        // }
+
+        return isValid;
+      }
+
+      function validateQCandWHFields() {
+        const requiredFields = [
+          { id: "productionStatus", description: "สถานะการผลิต" },
+        ];
+
+        let isValid = true;
+        let missingFields = [];
+
+        requiredFields.forEach(({ id, description }) => {
+          const fieldElement = document.getElementById(id);
+          const fieldValue = fieldElement.value.trim();
+          if (!fieldValue) {
+            isValid = false;
+            missingFields.push(description);
+            fieldElement.style.border = "1px solid #e57373"; // Add red border to indicate error
+          } else {
+            fieldElement.style.border = ""; // Remove border if field is filled
+          }
+        });
+
+        if (!isValid) {
+          alert(`กรุณากรอกข้อมูล:\n${missingFields.join("\n")}`);
+        }
+
+        return isValid;
+      }
+
+      function resetModalFields() {
+        const requiredFields = [
+          "productCode",
+          "productName",
+          "productQuantity",
+          "productUnit",
+          "orderNumber",
+          "requestedDate",
+          "productionDate",
+          "department",
+          "line",
+          "productionStatus",
+          "producedQuantity",
+          "finishDate",
+        ];
+
+        requiredFields.forEach((field) => {
+          const fieldElement = document.getElementById(field);
+          fieldElement.style.border = ""; // Reset border when modal is closed
+        });
+      }
+
+      function validateUserFields() {
+        const productionStatus = document
+          .getElementById("productionStatus")
+          .value.trim();
+
+        // Define required fields based on the production status
+        const requiredFields = [
+          { id: "productionStatus", description: "สถานะการผลิต" },
+          { id: "producedQuantity", description: "จำนวนที่ผลิต" },
+          { id: "finishDate", description: "วันที่เสร็จสิ้น" },
+        ];
+
+        let isValid = true;
+        let missingFields = [];
+
+        requiredFields.forEach(({ id, description }) => {
+          const fieldElement = document.getElementById(id);
+          const fieldValue = fieldElement.value.trim();
+
+          // Only check 'producedQuantity' and 'finishDate' if productionStatus is not 'กำลังผลิต'
+          if (
+            (id === "producedQuantity" || id === "finishDate") &&
+            productionStatus === "กำลังผลิต"
+          ) {
+            return; // Skip validation for these fields
+          }
+
+          if (!fieldValue) {
+            isValid = false;
+            missingFields.push(description);
+            fieldElement.style.border = "1px solid #e57373"; // Add red border to indicate error
+          } else {
+            fieldElement.style.border = ""; // Remove border if field is filled
+          }
+        });
+
+        if (!isValid) {
+          alert(`กรุณากรอกข้อมูล:\n${missingFields.join("\n")}`);
+        }
+
+        return isValid;
+      }
+
+      function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username === "admin" && password === "123") {
+          loggedInDepartment = "admin";
+          enableAllModalFields();
+          restoreProductionStatusOptions();
+          showAllButtons();
+          showAll();
+        } else if (
+          ["planning1", "planning2"].includes(username) &&
+          password === "123"
+        ) {
+          loggedInDepartment = "planning";
+
+          const statusesForPN = [
+            "ลงแผนผลิต",
+            "กำลังผลิต",
+            "ผลิตเสร็จสิ้น",
+            "รอการตรวจสอบ",
+            "ไม่ผ่านการตรวจสอบ",
+            "ผ่านการตรวจสอบ",
+            "รอการรับเข้า",
+            "สินค้าถูกตีกลับ",
+            "รับเข้าเสร็จสิ้น",
+          ];
+
+          filterRows(null, statusesForPN);
+          restrictToPNEdit();
+          restrictProductionStatusForPN();
+          showAllButtons();
+        } else if (username.startsWith("user") && password === "123") {
+          const department = {
+            user1: "ปิดผิว",
+            user2: "พีพีบอร์ด",
+            user3: "รีดเหล็ก",
+            user4: "พิมพ์เยื่อ",
+            user5: "เฟรม",
+            user6: "ตัดแผ่น",
+          }[username];
+
+          const statusesForUser = [
+            "ลงแผนผลิต",
+            "กำลังผลิต",
+            "ผลิตเสร็จสิ้น",
+            "รอการตรวจสอบ",
+            "ไม่ผ่านการตรวจสอบ",
+            "ผ่านการตรวจสอบ",
+            "รอการรับเข้า",
+            "สินค้าถูกตีกลับ",
+            "รับเข้าเสร็จสิ้น",
+          ];
+
+          loggedInDepartment = department;
+          setDepartmentFilter(department);
+          restrictToUserEdit();
+          restrictProductionStatusForUser();
+          filterRows(department, statusesForUser);
+          showBTButtons();
+        } else if (["qc1", "qc2"].includes(username) && password === "123") {
+          loggedInDepartment = "QCEditor";
+
+          const statusesForQC = [
+            "ผลิตเสร็จสิ้น",
+            "รอการตรวจสอบ",
+            "ไม่ผ่านการตรวจสอบ",
+            "ผ่านการตรวจสอบ",
+            "สินค้าถูกตีกลับ",
+            "รอการรับเข้า",
+            "รับเข้าเสร็จสิ้น",
+          ];
+
+          restrictToStatusEdit();
+          restoreProductionStatusOptions();
+          restrictProductionStatusForQC();
+          filterRows(null, statusesForQC);
+          showBTButtons();
+        } else if (username.startsWith("wh") && password === "123") {
+          loggedInDepartment = "WHEditor";
+
+          const statusesForWH = [
+            "ผ่านการตรวจสอบ",
+            "รอการรับเข้า",
+            "สินค้าถูกตีกลับ",
+            "รับเข้าเสร็จสิ้น",
+          ];
+
+          restrictToApproveEdit();
+          restoreProductionStatusOptions();
+          restrictProductionStatusForWH();
+          filterRows(null, statusesForWH);
+          showBTButtons();
+        } else {
+          alert("Invalid username or password.");
+          return;
+        }
+
+        // Show the "แก้ไข" column when login is successful
+        const table = document.getElementById("productionTable");
+        table.classList.remove("hidden-edit-column");
+
+        document.getElementById("usernameDisplay").textContent = `${username}`;
+        alert("Login successful!");
+        document.getElementById("loginButton").style.display = "none";
+        document.getElementById("logoutButton").style.display = "inline";
+        closeLoginModal();
+      }
+
+      function restrictButtons(department) {
+        const table = document.getElementById("productionTable");
+
+        for (let i = 1; i < table.rows.length; i++) {
+          const rowDepartment = table.rows[i].cells[1].innerText;
+          const editButton = table.rows[i].cells[15].querySelector("button");
+          const deleteButton =
+            table.rows[i].cells[15].querySelector(".delete-button");
+
+          if (rowDepartment === department) {
+            if (editButton) editButton.style.display = "inline";
+            if (deleteButton) deleteButton.style.display = "none";
+          } else {
+            if (editButton) editButton.style.display = "none";
+            if (deleteButton) deleteButton.style.display = "none";
+          }
+        }
+        // Hide Add Row, Save, and Load buttons for non-admin users
+        document.getElementById("addRowButton").style.display = "none";
+        document.getElementById("saveButton").style.display = "none";
+        // document.getElementById("loadButton").style.display = "none";
+      }
+
+      function showAllButtons() {
+        const table = document.getElementById("productionTable");
+
+        for (let i = 1; i < table.rows.length; i++) {
+          const editButton = table.rows[i].cells[15].querySelector("button");
+          const deleteButton =
+            table.rows[i].cells[15].querySelector(".delete-button");
+
+          if (editButton) editButton.style.display = "inline";
+          if (deleteButton) deleteButton.style.display = "inline";
+        }
+
+        document.getElementById("addRowButton").style.display = "inline";
+        document.getElementById("saveButton").style.display = "inline";
+        // document.getElementById("loadButton").style.display = "inline";
+      }
+
+      function showBTButtons() {
+        const table = document.getElementById("productionTable");
+
+        // document.getElementById("addRowButton").style.display = "inline";
+        document.getElementById("saveButton").style.display = "inline";
+        // document.getElementById("loadButton").style.display = "inline";
+      }
+
+      function logout() {
+        loggedInDepartment = null;
+        clearLoginModalInputs();
+
+        document.getElementById("loginButton").style.display = "inline";
+        document.getElementById("logoutButton").style.display = "none";
+
+        // Add class to hide the 13th column (แก้ไข)
+        // const table = document.getElementById("productionTable");
+        // table.classList.add("hidden-edit-column");
+
+        hideAllButtons();
+      }
+
+      function clearLoginModalInputs() {
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+      }
+
+      function hideAllButtons() {
+        const table = document.getElementById("productionTable");
+
+        for (let i = 1; i < table.rows.length; i++) {
+          const editButton = table.rows[i].cells[15].querySelector("button");
+          const deleteButton =
+            table.rows[i].cells[15].querySelector(".delete-button");
+
+          if (editButton) editButton.style.display = "none";
+          if (deleteButton) deleteButton.style.display = "none";
+        }
+
+        document.getElementById("usernameDisplay").textContent = ` `;
+
+        document.getElementById("addRowButton").style.display = "none";
+        document.getElementById("saveButton").style.display = "none";
+        // document.getElementById("loadButton").style.display = "none";
+      }
+
+      function restrictToStatusEdit() {
+        // Disable all modal inputs except for productionStatus
+        const inputs = document.querySelectorAll(
+          "#myModal input, #myModal select"
+        );
+
+        inputs.forEach((input) => {
+          if (
+            input.id !== "productionStatus" &&
+            input.id !== "approve" &&
+            input.id !== "rejectReason"
+          ) {
+            input.disabled = true;
+          }
+        });
+
+        // Hide the delete buttons on the table
+
+        // Ensure only the edit button is visible
+        showEditButtons();
+      }
+
+      function hideButtons() {
+        const editButtons = document.querySelectorAll(".edit-button");
+        const deleteButtons = document.querySelectorAll(".delete-button");
+
+        editButtons.forEach((button) => (button.style.display = "none"));
+        deleteButtons.forEach((button) => (button.style.display = "none"));
+      }
+
+      function showHistoryButtonOnly() {
+        // Get all buttons on the page except those inside the modal
+        const buttons = document.querySelectorAll(
+          "button:not(.modal-save-button)"
+        );
+
+        buttons.forEach((button) => {
+          const buttonText = button.textContent.trim(); // Use textContent and trim whitespace
+          if (
+            buttonText === "แก้ไข" ||
+            buttonText === "ลบ" ||
+            buttonText === "Logout" ||
+            buttonText === "เพิ่มแผน" ||
+            buttonText === "บันทึก" // Hide "บันทึก" button on the main page only
+          ) {
+            // Hide specific buttons on the main page
+            button.style.display = "none";
+          } else {
+            // Show all other buttons
+            button.style.display = "inline";
+          }
+        });
+      }
+
+      // Call showHistoryButtonOnly when the program starts
+      document.addEventListener("DOMContentLoaded", showHistoryButtonOnly);
+      document.addEventListener("DOMContentLoaded", resetRowColors);
+
+      function restrictToUserEdit() {
+        const inputs = document.querySelectorAll(
+          "#myModal input, #myModal select"
+        );
+        inputs.forEach((input) => {
+          if (
+            input.id !== "productionStatus" &&
+            input.id !== "producedQuantity" &&
+            input.id !== "finishDate"
+          ) {
+            input.disabled = true;
+          }
+        });
+      }
+
+      function restrictToPNEdit() {
+        const inputs = document.querySelectorAll(
+          "#myModal input, #myModal select"
+        );
+        inputs.forEach((input) => {
+          if (
+            input.id !== "productCode" &&
+            input.id !== "productName" &&
+            input.id !== "productQuantity" &&
+            input.id !== "productUnit" &&
+            // input.id !== "producedQuantity" &&
+            input.id !== "orderNumber" &&
+            input.id !== "requestedDate" &&
+            input.id !== "productionDate" &&
+            input.id !== "productionStatus" &&
+            input.id !== "department" &&
+            input.id !== "line"
+          ) {
+            input.disabled = true;
+          }
+        });
+      }
+
+      function restrictToadminEdit() {
+        const inputs = document.querySelectorAll(
+          "#myModal input, #myModal select"
+        );
+      }
+
+      function restrictToApproveEdit() {
+        // Disable all modal inputs except for productionStatus
+        const inputs = document.querySelectorAll(
+          "#myModal input, #myModal select"
+        );
+        inputs.forEach((input) => {
+          if (input.id !== "productionStatus" && input.id !== "approve") {
+            input.disabled = true;
+          }
+        });
+
+        // Hide the delete buttons on the table
+
+        // Ensure only the edit button is visible, and it only enables the status dropdown
+        showEditButtons();
+      }
+
+      function showEditButtons() {
+        const table = document.getElementById("productionTable");
+        for (let i = 1; i < table.rows.length; i++) {
+          const editButton = table.rows[i].cells[15].querySelector("button");
+          if (editButton) {
+            editButton.style.display = "inline";
+            editButton.onclick = function () {
+              editRow(this);
+              if (loggedInDepartment === "QCEditor") {
+                restrictToStatusEdit(); // Apply the restriction when editing a row
+              }
+              if (loggedInDepartment === "WHEditor") {
+                restrictToApproveEdit(); // Apply the restriction when editing a row
+              }
+            };
+          }
+        }
+      }
+
+      function enableAllModalFields() {
+        const inputs = document.querySelectorAll(
+          "#myModal input, #myModal select"
+        );
+        inputs.forEach((input) => {
+          input.disabled = false;
+        });
+      }
+      // ข้อมูลสินค้าในรูปแบบ JSON
+      let productsData = {};
+
+      // Fetch the JSON data
+      fetch("products_data.json")
+        .then((response) => response.json())
+        .then((data) => {
+          productsData = data;
+          populateProductCodeDatalist(data);
+        })
+        .catch((error) => console.error("Error loading JSON data:", error));
+
+      function populateProductCodeDatalist(data) {
+        const datalist = document.getElementById("productCodeList");
+        datalist.innerHTML = ""; // Clear existing options
+
+        Object.keys(data).forEach((productCode) => {
+          const option = document.createElement("option");
+          option.value = productCode;
+          datalist.appendChild(option);
+        });
+      }
+
+      function autoFillProductDetails() {
+        const productCode = document.getElementById("productCode").value;
+
+        if (productsData[productCode]) {
+          document.getElementById("productName").value =
+            productsData[productCode].name;
+          document.getElementById("productUnit").value =
+            productsData[productCode].unit;
+          document.getElementById("department").value =
+            productsData[productCode].department; // ตั้งค่าแผนก
+          updateModalLineDropdown(); // อัปเดต dropdown ของ line ให้สอดคล้องกับแผนกที่เลือก
+        } else {
+          document.getElementById("productName").value = "";
+          document.getElementById("productUnit").value = "";
+          document.getElementById("department").value = "ปิดผิว"; // ตั้งค่าเริ่มต้น
+          updateModalLineDropdown();
+        }
+      }
+
+      function initProductCodeDatalist() {
+        const productCodeInput = document.getElementById("productCode");
+        productCodeInput.addEventListener("input", filterProductCodes);
+      }
+
+      function filterProductCodes() {
+        const input = document
+          .getElementById("productCode")
+          .value.toLowerCase();
+        const datalist = document.getElementById("productCodeList");
+        datalist.innerHTML = ""; // Clear existing options
+
+        if (input) {
+          const filteredCodes = Object.keys(productsData).filter((code) =>
+            code.toLowerCase().includes(input)
+          );
+
+          filteredCodes.forEach((code) => {
+            const option = document.createElement("option");
+            option.value = code;
+            datalist.appendChild(option);
+          });
+        }
+
+        autoFillProductDetails(); // Auto-fill if a matching code is selected
+      }
+
+      // เรียกใช้ฟังก์ชันนี้เมื่อมีการกรอกรหัสสินค้า
+      document
+        .getElementById("productCode")
+        .addEventListener("input", autoFillProductDetails);
+
+      document
+        .getElementById("filterStartDate")
+        .addEventListener("input", filterByDateAndDepartment);
+      document
+        .getElementById("filterEndDate")
+        .addEventListener("input", filterByDateAndDepartment);
+
+      //กำหนด dropdown สถานะการผลิตของ planning (planning1-2)
+      function restrictProductionStatusForPN() {
+        const productionStatus = document.getElementById("productionStatus");
+        productionStatus.innerHTML = ""; // ล้าง dropdown
+
+        const option = document.createElement("option");
+        option.value = "ลงแผนผลิต";
+        option.textContent = "ลงแผนผลิต";
+        productionStatus.appendChild(option);
+      }
+
+      //กำหนด dropdown สถานะการผลิตของ production (user1-6)
+      function restrictProductionStatusForUser() {
+        const productionStatusDropdown =
+          document.getElementById("productionStatus");
+
+        // ลบตัวเลือกทั้งหมดออกก่อน
+        productionStatusDropdown.innerHTML = "";
+        // เพิ่มตัวเลือกใหม่
+        const options = ["กำลังผลิต", "ผลิตเสร็จสิ้น"];
+
+        options.forEach((option) => {
+          const optionElement = document.createElement("option");
+          optionElement.value = option;
+          optionElement.textContent = option;
+          productionStatusDropdown.appendChild(optionElement);
+        });
+      }
+
+      // //กำหนด dropdown สถานะการผลิตของ QC (qc1-2)
+      function restrictProductionStatusForQC() {
+        const productionStatusDropdown =
+          document.getElementById("productionStatus");
+
+        // ลบตัวเลือกทั้งหมดออกก่อน
+        productionStatusDropdown.innerHTML = "";
+        // เพิ่มตัวเลือกใหม่
+        const options = ["รอการตรวจสอบ", "ผ่านการตรวจสอบ", "ไม่ผ่านการตรวจสอบ"];
+
+        options.forEach((option) => {
+          const optionElement = document.createElement("option");
+          optionElement.value = option;
+          optionElement.textContent = option;
+          productionStatusDropdown.appendChild(optionElement);
+        });
+      }
+
+      //กำหนด dropdown สถานะการผลิตของ warehouse (WH1-6)
+      function restrictProductionStatusForWH() {
+        const productionStatusDropdown =
+          document.getElementById("productionStatus");
+        // ลบตัวเลือกทั้งหมดออกก่อน
+        productionStatusDropdown.innerHTML = "";
+        // เพิ่มตัวเลือกใหม่
+        const options = ["รอการรับเข้า", "สินค้าถูกตีกลับ", "รับเข้าเสร็จสิ้น"];
+
+        options.forEach((option) => {
+          const optionElement = document.createElement("option");
+          optionElement.value = option;
+          optionElement.textContent = option;
+          productionStatusDropdown.appendChild(optionElement);
+        });
+      }
+
+      function restoreProductionStatusOptions() {
+        const productionStatus = document.getElementById("productionStatus");
+        productionStatus.innerHTML = ""; // ล้าง dropdown
+
+        const options = [
+          "ลงแผนผลิต",
+          "กำลังผลิต",
+          "ผลิตเสร็จสิ้น",
+          "รอการตรวจสอบ",
+          "ผ่านการตรวจสอบ",
+          "ไม่ผ่านการตรวจสอบ",
+          "รอการรับเข้า",
+          "สินค้าถูกตีกลับ",
+          "รับเข้าเสร็จสิ้น",
+        ];
+        options.forEach((status) => {
+          const option = document.createElement("option");
+          option.value = status;
+          option.textContent = status;
+          productionStatus.appendChild(option);
+        });
+      }
+
+      function setDepartmentFilter(department) {
+        const departmentSelect = document.getElementById("filterDepartment");
+        departmentSelect.value = department;
+        updateLineDropdown();
+        filterByDateAndDepartment(); // Apply the filtering immediately
+      }
+
+      function filterRows(department, statuses) {
+        const table = document.getElementById("productionTable");
+
+        for (let i = 1; i < table.rows.length; i++) {
+          const row = table.rows[i];
+          const productionStatus = row.cells[12].innerText.trim(); // Get production status
+          const rowDepartment = row.cells[1].innerText.trim(); // Get department
+          const editButton = row.querySelector("button"); // Find edit button in the row
+
+          // Check if the row matches the department and production status
+          if (
+            statuses.includes(productionStatus) &&
+            (department === null || rowDepartment === department)
+          ) {
+            row.style.display = ""; // Show row if it matches the conditions
+
+            // Show the edit button if present
+            if (editButton) {
+              editButton.style.display = "inline-block";
+            }
+          } else {
+            row.style.display = "none"; // Hide row if it doesn't match the conditions
+
+            // Hide the edit button if the row doesn't match
+            if (editButton) {
+              editButton.style.display = "none";
+            }
+          }
+        }
+
+        // Update row numbers after filtering
+        updateRowNumbers();
+      }
+
+      function resetRowColors() {
+        const rows = document.querySelectorAll("#productionTable tbody tr"); // เลือกเฉพาะแถวใน tbody (ไม่รวม th)
+
+        rows.forEach((row, index) => {
+          // ตรวจสอบแต่ละ <td> ในแถว
+          const tds = row.querySelectorAll("td");
+
+          tds.forEach((td) => {
+            if (index % 2 === 0) {
+              // เลขคู่ (เริ่มนับจาก 0)
+              td.style.backgroundColor = "#ebf3ff"; //light blue
+            } else {
+              // เลขคี่
+              td.style.backgroundColor = "#ffffff"; //white
+            }
+          });
+        });
+      }
+
+      function searchProductName() {
+        // Reset the filter dropdown to "ALL"
+        document.getElementById("filterDepartment").value = "All";
+
+        // Get the search input and convert it to lowercase
+        const searchInput = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const table = document.getElementById("productionTable");
+        const rows = table.getElementsByTagName("tr"); // Get all the rows in the table
+
+        // Loop through all the rows in the table body
+        for (let i = 1; i < rows.length; i++) {
+          // Get the productName from the current row (adjust the index to match your productName column)
+          const productName = rows[i].cells[5].innerText.toLowerCase(); // Assuming productName is in the 5th column
+
+          // If the productName includes the search input, show the row; otherwise, hide it
+          if (productName.includes(searchInput)) {
+            rows[i].style.display = ""; // Show the row
+          } else {
+            rows[i].style.display = "none"; // Hide the row
+          }
+        }
+      }
+
+    </script> 
+  </body>
+</html>
